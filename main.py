@@ -1,4 +1,3 @@
-
 import random
 from pyray import *
 
@@ -164,6 +163,12 @@ class Game:
 
 def main():
     init_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Tetris")
+    try:
+        icon = load_image("icon.png")
+        set_window_icon(icon)
+        unload_image(icon)
+    except Exception as e:
+        print(f"Icon load failed: {e}")
     set_target_fps(60)
     game = Game()
 
