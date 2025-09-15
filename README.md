@@ -12,7 +12,6 @@
 ```
 ├── main.py                # Entry point for the game
 ├── pyproject.toml         # Project metadata and dependencies
-├── uv.lock                # Lock file for dependencies
 ├── icon.png               # Game window icon
 ├── assets/                # Game sound assets
 │   ├── game-bonus.mp3
@@ -34,12 +33,36 @@
 	python main.py
 	```
 
+
 ## Controls
 - **Arrow keys**: Move and rotate tetrominoes
 - **Space**: Start game
 - **R**: Restart after game over
 - **P**: Pause
 - **M**: Mute/unmute sound
+
+## Testing
+
+This project uses `pytest` for testing. All tests are located in the `tests/` directory.
+
+### How to Run Tests
+
+1. Install development dependencies (pytest):
+	```bash
+	pip install pytest
+	```
+	Or, if using uv:
+	```bash
+	uv pip install pytest
+	```
+2. Run the test suite from the project root:
+	```bash
+	pytest
+	```
+
+### Notes
+- Some tests use `unittest.mock` to simulate key presses and game state.
+- All game logic is tested independently of the graphical interface.
 
 ## License
 BSD 3-Clause License  
