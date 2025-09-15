@@ -1,4 +1,3 @@
-
 from tetris.constants import *
 from tetris.game import Game
 from tetris.audio import GAME_START_SOUND, unload_all_sounds

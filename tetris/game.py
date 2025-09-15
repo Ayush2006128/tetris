@@ -39,27 +39,36 @@ class Game:
         for y, row in enumerate(piece.shape):
             for x, cell in enumerate(row):
                 if cell:
+                    if piece.y + y < 0 or piece.y + y >= GRID_HEIGHT:
+                        self.game_over = True
+                        self.played_game_over_sound = False
+                        return
                     self.grid[piece.y + y][piece.x + x] = piece.shape_index + 1
+        
         self.clear_lines()
-        self.current_piece = self.next_piece
-        self.next_piece = self.new_piece()
-        if self.check_collision(self.current_piece):
+        next_piece = self.next_piece
+        if self.check_collision(next_piece):
             self.game_over = True
-            self.played_game_over_sound = False  # Reset so sound can play once
+            self.played_game_over_sound = False
+        self.current_piece = next_piece
+        self.next_piece = self.new_piece()
 
     def clear_lines(self):
         lines_cleared = 0
         new_grid = []
-        for row in self.grid:
-            if 0 in row:
-                new_grid.append(row)
-            else:
+        for row in reversed(self.grid):  # Start from bottom
+            if all(cell != 0 for cell in row):  # If line is full
                 lines_cleared += 1
+            else:
+                new_grid.insert(0, row.copy())  # Keep non-full lines
+        
+        # Add empty lines at the top
+        for _ in range(lines_cleared):
+            new_grid.insert(0, [0] * GRID_WIDTH)
+            
         self.score += lines_cleared * 100
         if lines_cleared > 0:
             play_sound(GAME_BONUS_SOUND)
-        for _ in range(lines_cleared):
-            new_grid.insert(0, [0] * GRID_WIDTH)
         self.grid = new_grid
 
     def update(self, game_state, muted):
